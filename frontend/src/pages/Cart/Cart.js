@@ -7,7 +7,8 @@ const Cart = () => {
   const {products,currency,cartItems,formatPrice,updateQuantity,navigate} = useContext(ShopContext);
   const [cartData,setCartData] = useState([]);
   useEffect(()=>{
-    const tempData = [];
+    if (products.length > 0) {
+        const tempData = [];
     for(const items in cartItems){
         for(const item in cartItems[items]){
           if (cartItems[items][item]>0) {
@@ -18,10 +19,10 @@ const Cart = () => {
             })
           }
         }
-       
     }
     setCartData(tempData)
-  },[cartItems])
+    }
+  },[cartItems,products])
   return (
     <div className='border-t pt-14'>
       <div className='text-2xl mb-3'>
@@ -30,9 +31,9 @@ const Cart = () => {
         <div>
           {
             cartData.map((item,index)=>{
-              const productData = products.find((products)=>products._id === item._id);
+              const productData = products.find((product)=>product._id === item._id);
               return(
-                <div className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
+                <div key={index} className='py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
                   <div className='flex items-start gap-6'>
                       <img className='w-16 sm:w-20' src={productData.image[0]} alt="" />
                      <div>
